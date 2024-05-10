@@ -41,7 +41,7 @@ public class PoemLearnActivity extends AppCompatActivity {
         // 设置按钮点击事件监听
         setupButtons();
         // 设置初始诗歌
-        setupInitialPoem(savedInstanceState);
+        setupInitialPoem();
         // 初始化文字转语音引擎
         textToSpeech = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
@@ -82,11 +82,12 @@ public class PoemLearnActivity extends AppCompatActivity {
     }
 
     // 设置初始诗歌
-    private void setupInitialPoem(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
+    private void setupInitialPoem() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
             currentPoem = getRandomPoem();
         } else {
-            currentPoem = getPoemFromBundle(savedInstanceState);
+            currentPoem = getPoemFromBundle(bundle);
         }
         displayPoem(currentPoem);
     }
@@ -103,7 +104,7 @@ public class PoemLearnActivity extends AppCompatActivity {
         String dynasty = bundle.getString("dynasty");
         String content = bundle.getString("content");
         String explanation = bundle.getString("explanation");
-        return new Poem(poemName, writerName, dynasty, content, explanation);
+        return new Poem(poemName, writerName, content, dynasty, explanation);
     }
 
     // 更换诗歌
@@ -137,8 +138,13 @@ public class PoemLearnActivity extends AppCompatActivity {
     // 播放诗歌朗诵
     private void readPoem() {
         if (currentPoem != null) {
-            String poemContent = currentPoem.getContent().replace("\n", " ");
-            textToSpeech.speak(poemContent, TextToSpeech.QUEUE_FLUSH, null, null);
+            String poemTitle = currentPoem.getPoemName();
+            String poemWriter = currentPoem.getWriterName();
+            String poemDynasty = currentPoem.getDynasty();
+            String poemExplanation = currentPoem.getExplanation();
+            String poemContent = currentPoem.getContent();
+            String message = String.format("《%s》\n作者：%s 朝代：%s\n\n%s\n\n%s", poemTitle, poemWriter, poemDynasty, poemContent, poemExplanation);
+            textToSpeech.speak(message, TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
 
