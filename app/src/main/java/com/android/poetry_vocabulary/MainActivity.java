@@ -27,22 +27,22 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         // 跳转还原诗词页面
-        findViewById(R.id.btn_1).setOnClickListener(e -> {
+        findViewById(R.id.btn_restoration).setOnClickListener(e -> {
             Intent intent = new Intent(MainActivity.this, RestorationPoetryActivity.class);
             startActivity(intent);
         });
         // 跳转学习诗词页面
-        findViewById(R.id.btn_2).setOnClickListener(e -> {
+        findViewById(R.id.btn_learn).setOnClickListener(e -> {
             Intent intent = new Intent(MainActivity.this, PoemLearnActivity.class);
             startActivity(intent);
         });
         // 跳转添加诗词页面
-        findViewById(R.id.btn_3).setOnClickListener(e -> {
+        findViewById(R.id.btn_add).setOnClickListener(e -> {
             Intent intent = new Intent(MainActivity.this, AddPoemActivity.class);
             startActivity(intent);
         });
         // 跳转诗词列表页面
-        findViewById(R.id.btn_4).setOnClickListener(e -> {
+        findViewById(R.id.btn_list).setOnClickListener(e -> {
             Intent intent = new Intent(MainActivity.this, PoemListActivity.class);
             startActivity(intent);
         });

@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+// 诗歌数据库帮助类
 public class PoemDatabaseHelper extends SQLiteOpenHelper {
     // 数据库读对象
     private SQLiteDatabase mRDB;
@@ -180,6 +181,7 @@ public class PoemDatabaseHelper extends SQLiteOpenHelper {
         return poem;
     }
 
+    // 从XML输入流中插入诗歌数据
     public void insertPoemsFromXml(InputStream inputStream) throws Exception {
         Serializer serializer = new Persister();
         Poems poems = serializer.read(Poems.class, inputStream);
@@ -196,5 +198,4 @@ public class PoemDatabaseHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
-
 }

@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">poetry_vocabulary</string>
-
+    <string name="app_name">诗词学习</string>
+    <string name="app_description">探索诗词的无穷魅力</string>
+    <string name="btn_restoration">还原诗句</string>
+    <string name="btn_learn">学习诗词</string>
+    <string name="btn_add">添加诗词</string>
+    <string name="btn_list">诗词列表</string>
 </resources>

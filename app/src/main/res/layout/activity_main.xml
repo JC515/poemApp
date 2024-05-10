@@ -1,171 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     android:orientation="vertical"
+    android:paddingHorizontal="20dp"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/tv_background"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:gravity="center"
-        android:text="这是背景图片">
-
-    </TextView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="还原诗句">
-
-        </Button>
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent"></Space>
-
-        <Button
-            android:id="@+id/btn_2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="学习诗词">
-
-        </Button>
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent"></Space>
-
-        <Button
-            android:id="@+id/btn_3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="添加诗词">
-
-        </Button>
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent"></Space>
-
-        <Button
-            android:id="@+id/btn_4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="诗词列表">
-
-        </Button>
-
-    </LinearLayout>
-
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="10dp"
         android:layout_marginTop="50dp"
-        android:columnCount="2"
-        android:rowCount="3">
+        android:padding="20dp"
+        android:text="@string/app_name"
+        android:textColor="@color/text_primary"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/tv_1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center"
-            android:text="TextView 1">
-
-        </Button>
-
-        <Button
-            android:id="@+id/tv_2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center"
-            android:text="TextView 2">
-
-        </Button>
-
-        <Button
-            android:id="@+id/tv_3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center"
-            android:text="TextView 3">
-
-        </Button>
-
-        <Button
-            android:id="@+id/tv_4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center"
-            android:text="TextView 4">
-
-        </Button>
-
-        <Button
-            android:id="@+id/tv_5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center"
-            android:text="TextView 5">
-
-        </Button>
-
-        <Button
-            android:id="@+id/tv_6"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center"
-            android:text="TextView 6">
-
-        </Button>
-
-    </GridLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="@string/app_description"
+        android:textColor="@color/text_secondary"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_restoration"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="180dp"
+        android:background="@drawable/rounded_button_bg"
+        android:drawableStart="@drawable/ic_restoration"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="15dp"
+        android:text="@string/btn_restoration"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_learn"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:background="@drawable/rounded_button_bg"
+        android:drawableStart="@drawable/ic_learn"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="15dp"
+        android:text="@string/btn_learn"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="菜单区"
-            android:textSize="20sp">
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button_bg"
+        android:drawableStart="@drawable/ic_add"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="15dp"
+        android:text="@string/btn_add"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp" />
 
-        </TextView>
-
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/btn_list"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button_bg"
+        android:drawableStart="@drawable/ic_list"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="15dp"
+        android:text="@string/btn_list"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp" />
 
 </LinearLayout>

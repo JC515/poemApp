@@ -283,7 +283,6 @@ public class RestorationPoetryActivity extends AppCompatActivity {
 
         addWordsToGridLayout(list);
 
-//        Toast.makeText(this, "诗句已还原", Toast.LENGTH_SHORT).show();
     }
 
     @Override
