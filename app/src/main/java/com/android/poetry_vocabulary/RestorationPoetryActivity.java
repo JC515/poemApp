@@ -1,10 +1,12 @@
 package com.android.poetry_vocabulary;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,18 +15,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.poetry_vocabulary.pojo.Poem;
+import com.android.poetry_vocabulary.util.PoemDatabaseHelper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-public class RestorationPoetry extends AppCompatActivity {
+public class RestorationPoetryActivity extends AppCompatActivity {
     // 诗句原文，用于校验答案
-    private final String originalPoem = "锄禾日当午 汗滴禾下土 谁知盘中餐 粒粒皆辛苦";
+    private String originalPoem;
     // 可变的诗句，用于复原
-    private String poem = originalPoem;
+    private String poem;
     // 选中的按钮
     private final List<Button> selectedButtons = new ArrayList<>();
+    private LinearLayout rootLayout;
     // 网格布局
     private GridLayout gridLayout;
     // 退出按钮
@@ -33,6 +40,16 @@ public class RestorationPoetry extends AppCompatActivity {
     private Button verifyButton;
     // 还原按钮
     private Button restoreButton;
+    // 更换按钮
+    private Button changeButton;
+    // 显示诗词信息
+    TextView poemTextView;
+    // 记录当前诗词对象
+    Poem currentPoem;
+    // 诗句数据库
+    PoemDatabaseHelper poemDatabaseHelper;
+    // 诗句数据
+    List<Poem> poemDataList;
 
 
     @Override
@@ -45,19 +62,69 @@ public class RestorationPoetry extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // 初始化按钮
-        initButtons();
-        // 初始化网格布局
-        initGridLayout();
-        // 添加按钮到布局中
-        LinearLayout layout = findViewById(R.id.main);
-        layout.addView(exitButton);
-        layout.addView(verifyButton);
-        layout.addView(restoreButton);
-        layout.addView(gridLayout);
+        // 获取布局
+        rootLayout = findViewById(R.id.main);
+        // 获取PoemDatabaseHelper实例
+        poemDatabaseHelper = PoemDatabaseHelper.getInstance(this);
+        // 获取诗词数据
+        getPoemData();
+        // 设置随机诗句
+        setRandomPoem();
+        // 添加组件到布局中
+        layoutAddView();
     }
 
-    private void initButtons() {
+    public void layoutAddView() {
+        initViews();
+        // 添加组件到布局中
+        rootLayout.addView(exitButton);
+        rootLayout.addView(verifyButton);
+        rootLayout.addView(restoreButton);
+        rootLayout.addView(poemTextView);
+        rootLayout.addView(gridLayout);
+        rootLayout.addView(changeButton);
+    }
+
+    public void deleteView() {
+        // 删除组件
+        rootLayout.removeView(exitButton);
+        rootLayout.removeView(verifyButton);
+        rootLayout.removeView(restoreButton);
+        rootLayout.removeView(poemTextView);
+        rootLayout.removeView(gridLayout);
+        rootLayout.removeView(changeButton);
+    }
+
+    public void getPoemData() {
+        // 获取诗句数据
+        poemDataList = poemDatabaseHelper.queryAllPoems();
+    }
+
+    public void setRandomPoem() {
+        if (currentPoem == null) {
+            // 随机获取诗词
+            int randomIndex = (int) (Math.random() * poemDataList.size());
+            currentPoem = poemDataList.get(randomIndex);
+        } else {
+            while (true) {
+                int randomIndex = (int) (Math.random() * poemDataList.size());
+                Poem tempPoem = poemDataList.get(randomIndex);
+                // 确保随机诗句与当前诗句不同
+                if (!Objects.equals(tempPoem.getPoemId(), currentPoem.getPoemId())) {
+                    currentPoem = tempPoem;
+                    break;
+                }
+            }
+        }
+        // 设置随机诗句
+        originalPoem = currentPoem.getContent();
+        // poem是用于被打乱诗句
+        poem = originalPoem;
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initViews() {
+        // 初始化按钮
         exitButton = new Button(this);
         exitButton.setText("退出");
         exitButton.setOnClickListener(v -> finish());
@@ -69,6 +136,35 @@ public class RestorationPoetry extends AppCompatActivity {
         restoreButton = new Button(this);
         restoreButton.setText("自动复原");
         restoreButton.setOnClickListener(v -> restorePoem());
+
+        changeButton = new Button(this);
+        changeButton.setText("换一首");
+        changeButton.setOnClickListener(v -> {
+            // 更换诗句
+            setRandomPoem();
+            // 打乱诗句
+            shufflePoem(poem);
+            // 更新界面
+            updateView();
+//            Toast.makeText(this, "更换成功！", Toast.LENGTH_SHORT).show();
+        });
+        // 初始化网格布局
+        initGridLayout();
+        // 初始化TextView
+        poemTextView = new TextView(this);
+        poemTextView.setText(currentPoem.getPoemName() + "\n" + currentPoem.getDynasty() + "\n" + currentPoem.getWriterName());
+        poemTextView.setGravity(Gravity.CENTER);
+        poemTextView.setTextSize(20);
+
+        poemTextView.setPadding(10, 30, 10, 10);
+    }
+
+    public void updateView() {
+        // 移除所有子视图
+        deleteView();
+        gridLayout.removeAllViews();
+        // 更新组件，添加到布局中
+        layoutAddView();
     }
 
     private void initGridLayout() {
@@ -187,6 +283,18 @@ public class RestorationPoetry extends AppCompatActivity {
 
         addWordsToGridLayout(list);
 
-        Toast.makeText(this, "诗句已还原为原始顺序", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "诗句已还原", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        poemDatabaseHelper.openReadDB();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        poemDatabaseHelper.closeDB();
     }
 }

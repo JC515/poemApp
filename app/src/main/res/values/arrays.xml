@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dynasty_array">
+        <item>唐</item>
+        <item>宋</item>
+        <item>元</item>
+        <item>明</item>
+        <item>清</item>
+        <item>其他</item>
+    </string-array>
+</resources>

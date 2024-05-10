@@ -1,0 +1,17 @@
+<poems>
+    <poem>
+        <poemName>静夜思</poemName>
+        <writerName>李白</writerName>
+        <content>床前明月光 疑是地上霜 举头望明月 低头思故乡</content>
+        <dynasty>唐</dynasty>
+        <explanation>这首诗描写了诗人在寂静的夜晚，看到明月，思念家乡的心情。</explanation>
+    </poem>
+    <poem>
+        <poemName>春晓</poemName>
+        <writerName>孟浩然</writerName>
+        <content>春眠不觉晓 处处闻啼鸟 夜来风雨声 花落知多少</content>
+        <dynasty>唐</dynasty>
+        <explanation>这首诗描写了春天早晨的景象，表达了诗人对春天的喜爱之情。</explanation>
+    </poem>
+
+</poems>
