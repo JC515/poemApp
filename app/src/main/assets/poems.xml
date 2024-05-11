@@ -31,6 +31,24 @@
         <explanation>楚江犹如巨斧，劈开天门雄峰，碧绿江水滚滚东流到这里，又回旋向北流去。两岸青山互相对峙美景难分高下，一只小船从西边落日的地方悠悠驶来。
         </explanation>
     </poem>
+    <poem>
+        <poemName>相思</poemName>
+        <writerName>王维</writerName>
+        <content>红豆生南国 春来发几枝 愿君多采撷 此物最相思</content>
+        <dynasty>唐</dynasty>
+        <explanation>
+            红豆生长在阳光明媚的南方，每逢春天不知长多少新枝。希望思念的人儿多多采摘，因为它最能寄托相思之情。
+        </explanation>
+    </poem>
+    <poem>
+        <poemName>登鹳雀楼</poemName>
+        <writerName>王之涣</writerName>
+        <content>白日依山尽 黄河入海流 欲穷千里目 更上一层楼</content>
+        <dynasty>唐</dynasty>
+        <explanation>
+            站在高楼上，只见夕阳依傍着山峦慢慢沉落，滔滔黄河朝着大海汹涌奔流。想要看到千里之外的风光，那就要再登上更高的一层楼。
+        </explanation>
+    </poem>
 
 
 </poems>

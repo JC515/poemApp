@@ -140,6 +140,20 @@ public class PoemDatabaseHelper extends SQLiteOpenHelper {
         return mWDB.update(TABLE_NAME, values, selection, selectionArgs);
     }
 
+    public List<Poem> conditionQuery(String keyStr) {
+        // 先查询所有诗词
+        List<Poem> poemList = queryAllPoems();
+        // 再根据关键字进行过滤
+        List<Poem> resultList = new ArrayList<>();
+        for (Poem poem : poemList) {
+            if (poem.getPoemName().contains(keyStr) || poem.getWriterName().contains(keyStr) ||
+                    poem.getContent().contains(keyStr) || poem.getDynasty().contains(keyStr)) {
+                resultList.add(poem);
+            }
+        }
+        return resultList;
+    }
+
     // 查询数据, 返回 ALL Poem 列表
     @SuppressLint("Range")
     public List<Poem> queryAllPoems() {
@@ -199,3 +213,4 @@ public class PoemDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 }
+

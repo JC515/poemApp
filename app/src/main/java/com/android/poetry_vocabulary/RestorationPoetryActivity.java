@@ -1,8 +1,12 @@
 package com.android.poetry_vocabulary;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -23,6 +27,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RestorationPoetryActivity extends AppCompatActivity {
     // 诗句原文，用于校验答案
@@ -34,8 +40,8 @@ public class RestorationPoetryActivity extends AppCompatActivity {
     private LinearLayout rootLayout;
     // 网格布局
     private GridLayout gridLayout;
-    // 退出按钮
-    private Button exitButton;
+    //    // 退出按钮
+//    private Button exitButton;
     // 校验按钮
     private Button verifyButton;
     // 还原按钮
@@ -50,6 +56,8 @@ public class RestorationPoetryActivity extends AppCompatActivity {
     PoemDatabaseHelper poemDatabaseHelper;
     // 诗句数据
     List<Poem> poemDataList;
+
+    TextView introduceTextView;
 
 
     @Override
@@ -77,22 +85,24 @@ public class RestorationPoetryActivity extends AppCompatActivity {
     public void layoutAddView() {
         initViews();
         // 添加组件到布局中
-        rootLayout.addView(exitButton);
-        rootLayout.addView(verifyButton);
-        rootLayout.addView(restoreButton);
+        rootLayout.addView(introduceTextView);
         rootLayout.addView(poemTextView);
         rootLayout.addView(gridLayout);
+//        rootLayout.addView(exitButton);
+        rootLayout.addView(verifyButton);
+        rootLayout.addView(restoreButton);
         rootLayout.addView(changeButton);
     }
 
     public void deleteView() {
         // 删除组件
-        rootLayout.removeView(exitButton);
+//        rootLayout.removeView(exitButton);
         rootLayout.removeView(verifyButton);
         rootLayout.removeView(restoreButton);
         rootLayout.removeView(poemTextView);
         rootLayout.removeView(gridLayout);
         rootLayout.removeView(changeButton);
+        rootLayout.removeView(introduceTextView);
     }
 
     public void getPoemData() {
@@ -122,23 +132,32 @@ public class RestorationPoetryActivity extends AppCompatActivity {
         poem = originalPoem;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     private void initViews() {
         // 初始化按钮
-        exitButton = new Button(this);
-        exitButton.setText("退出");
-        exitButton.setOnClickListener(v -> finish());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                400,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+        params.topMargin = 30; // 单位为像素
 
         verifyButton = new Button(this);
-        verifyButton.setText("校验");
+        verifyButton.setLayoutParams(params);
+        verifyButton.setText("校验答案");
         verifyButton.setOnClickListener(v -> verifyAnswer());
+        verifyButton.setBackgroundResource(R.drawable.rounded_button_bg);
 
         restoreButton = new Button(this);
+        restoreButton.setLayoutParams(params);
         restoreButton.setText("自动复原");
         restoreButton.setOnClickListener(v -> restorePoem());
+        restoreButton.setBackgroundResource(R.drawable.rounded_button_bg);
 
         changeButton = new Button(this);
-        changeButton.setText("换一首");
+        changeButton.setLayoutParams(params);
+        changeButton.setText("更换诗词");
+        changeButton.setBackgroundResource(R.drawable.rounded_button_bg);
         changeButton.setOnClickListener(v -> {
             // 更换诗句
             setRandomPoem();
@@ -146,17 +165,24 @@ public class RestorationPoetryActivity extends AppCompatActivity {
             shufflePoem(poem);
             // 更新界面
             updateView();
-//            Toast.makeText(this, "更换成功！", Toast.LENGTH_SHORT).show();
         });
+
         // 初始化网格布局
         initGridLayout();
+
         // 初始化TextView
         poemTextView = new TextView(this);
         poemTextView.setText(currentPoem.getPoemName() + "\n" + currentPoem.getDynasty() + "\n" + currentPoem.getWriterName());
         poemTextView.setGravity(Gravity.CENTER);
         poemTextView.setTextSize(20);
-
         poemTextView.setPadding(10, 30, 10, 10);
+
+        introduceTextView = new TextView(this);
+        introduceTextView.setText("还原诗句");
+        introduceTextView.setGravity(Gravity.CENTER);
+        introduceTextView.setTextSize(25);
+        introduceTextView.setPadding(10, 120, 10, 10);
+        introduceTextView.setTextColor(R.color.black);
     }
 
     public void updateView() {
@@ -183,7 +209,7 @@ public class RestorationPoetryActivity extends AppCompatActivity {
 
         gridLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
+                900));
         // 添加按钮到网格布局中
         addWordsToGridLayout(list);
     }
@@ -193,8 +219,18 @@ public class RestorationPoetryActivity extends AppCompatActivity {
         for (int i = 0; i < list.size(); i++) {
             String[] words = list.get(i).split("");
             for (int j = 0; j < words.length; j++) {
-                Button wordButton = createWordButton(i, j, words[j]);// 创建按钮
+                Button wordButton = createWordButton(i, j, words[j]); // 创建按钮
                 gridLayout.addView(wordButton);
+
+                // 设置初始位置在屏幕外
+                wordButton.setTranslationX(gridLayout.getWidth());
+
+                // 创建飞入动画
+                ObjectAnimator animator = ObjectAnimator.ofFloat(wordButton, "translationX", 0f);
+                animator.setDuration(500); // 动画持续时间 500 毫秒
+                animator.setStartDelay(50 * ((long) i * words.length + j)); // 每个按钮延迟 50 毫秒
+
+                animator.start();
             }
         }
     }
@@ -211,21 +247,65 @@ public class RestorationPoetryActivity extends AppCompatActivity {
         wordButton.setLayoutParams(params);
 
         wordButton.setGravity(Gravity.CENTER);// 设置按钮居中
+        //设置按钮背景
+        wordButton.setBackgroundResource(R.drawable.rounded_button_bg);
 
         // 按钮点击事件,交换选中的两个按钮的文字
         wordButton.setOnClickListener(v -> {
             Button clickedButton = (Button) v;
+
             if (selectedButtons.isEmpty()) {
+                // 第一次点击，选中按钮并改变背景
                 selectedButtons.add(clickedButton);
+                clickedButton.setBackgroundResource(R.drawable.rounded_button_bg_press);
             } else if (selectedButtons.size() == 1 && selectedButtons.get(0) != clickedButton) {
+                // 点击第二个按钮，交换文字并恢复背景
                 Button firstButton = selectedButtons.get(0);
-                String temp = firstButton.getText().toString();
-                firstButton.setText(clickedButton.getText());
-                clickedButton.setText(temp);
+                String tempText = firstButton.getText().toString();
+
+                // 淡出动画
+                Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+                fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        // 使用 Timer 设置 100ms 延迟
+                        new Timer().schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(() -> {
+                                    // 交换文字
+                                    firstButton.setText(clickedButton.getText().toString());
+                                    clickedButton.setText(tempText);
+
+                                    // 淡入动画
+                                    Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                                    firstButton.startAnimation(fadeIn);
+                                    clickedButton.startAnimation(fadeIn);
+
+                                    // 恢复背景颜色
+                                    firstButton.setBackgroundResource(R.drawable.rounded_button_bg);
+                                    clickedButton.setBackgroundResource(R.drawable.rounded_button_bg);
+                                });
+                            }
+                        }, 100); // 延迟 100 毫秒
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+                firstButton.startAnimation(fadeOut);
+                clickedButton.startAnimation(fadeOut);
+
                 selectedButtons.clear();
             } else {
+                // 点击已选中的按钮，取消选中并恢复背景
                 selectedButtons.clear();
-                selectedButtons.add(clickedButton);
+                clickedButton.setBackgroundResource(R.drawable.rounded_button_bg);
             }
         });
 
@@ -262,8 +342,43 @@ public class RestorationPoetryActivity extends AppCompatActivity {
             sb.append(button.getText());
         }
         String userAnswer = sb.toString().replace(" ", "");
+        String temp = originalPoem.replace(" ", "");
+//        Toast.makeText(this, "用户答案：" + userAnswer, Toast.LENGTH_SHORT).show();
+//
+//        Toast.makeText(this, "正确答案：" + temp, Toast.LENGTH_SHORT).show();
 
-        if (userAnswer.equals(originalPoem.replace(" ", ""))) {
+        boolean isCorrect = userAnswer.equals(originalPoem.replace(" ", ""));
+
+        // 依次检查按钮并设置动画
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+            Button button = (Button) gridLayout.getChildAt(i);
+            int finalI = i;
+            // 使用 Timer 设置延迟
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    runOnUiThread(() -> {
+                        // 设置按钮背景颜色
+                        if (button.getText().toString().equals(String.valueOf(temp.charAt(finalI)))) {
+                            button.setBackgroundResource(R.drawable.rounded_button_bg_green);
+                        } else {
+                            button.setBackgroundResource(R.drawable.rounded_button_bg_red);
+                        }
+
+                        // 创建跳动动画
+                        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(button, "scaleX", 1f, 1.2f, 1f);
+                        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(button, "scaleY", 1f, 1.2f, 1f);
+                        AnimatorSet animatorSet = new AnimatorSet();
+                        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+                        animatorSet.setDuration(300); // 动画持续时间 300 毫秒
+                        animatorSet.start();
+                    });
+                }
+            }, 100L * i); // 每个按钮延迟 100 毫秒
+        }
+
+        // 显示提示信息
+        if (isCorrect) {
             Toast.makeText(this, "答案正确!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "答案错误,请继续尝试", Toast.LENGTH_SHORT).show();

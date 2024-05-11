@@ -19,6 +19,7 @@ import com.android.poetry_vocabulary.R;
 import com.android.poetry_vocabulary.pojo.Poem;
 import com.android.poetry_vocabulary.util.PoemDatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder> {
@@ -72,11 +73,12 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
     }
 
     // 绑定视图组件数据
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull PoemViewHolder holder, int position) {
         Poem poem = poemList.get(position);
         holder.poemNameTextView.setText(poem.getPoemName());
-        holder.writerNameTextView.setText(poem.getWriterName());
+        holder.writerNameTextView.setText(String.format("%s·%s", poem.getDynasty(), poem.getWriterName()));
 //        holder.dynastyTextView.setText(poem.getDynasty());
 
         holder.contentTextView.setText(formatContent(poem.getContent()));
@@ -84,11 +86,19 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
 //        holder.commentTextView.setText(poem.getExplanation());
         holder.deleteButton.setOnClickListener(e -> {
             poemList.remove(position);
-            if (poemDatabaseHelper.deletePoem(poem.getPoemId()) > 0) {
-                Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
-                notifyItemRemoved(position);
-            } else {
-                Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+            try {
+                if (poemDatabaseHelper.deletePoem(poem.getPoemId()) > 0) {
+                    Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                    // 通知 RecyclerView 视图更新
+                    notifyItemRemoved(position);
+
+                    // 强制刷新整个列表
+                    notifyDataSetChanged();
+                } else {
+                    Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
         holder.learn_button.setOnClickListener(e -> {
@@ -108,6 +118,52 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
     @Override
     public int getItemCount() {
         return poemList == null ? 0 : poemList.size();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filter(String keyword, int sort, int order) {
+        // 根据关键词获取符合条件的诗歌列表
+        List<Poem> resultList = poemDatabaseHelper.conditionQuery(keyword);
+
+        // 根据排序规则和顺序对列表进行排序
+        List<Poem> sortedList = new ArrayList<>(resultList);
+        if (sort == 1) {
+            // 按标题排序
+            sortedList.sort((p1, p2) -> {
+                if (order == 0) {
+                    // 升序
+                    return p1.getPoemName().compareTo(p2.getPoemName());
+                } else {
+                    // 降序
+                    return p2.getPoemName().compareTo(p1.getPoemName());
+                }
+            });
+        } else if (sort == 2) {
+            // 按作者排序
+            sortedList.sort((p1, p2) -> {
+                if (order == 0) {
+                    // 升序
+                    return p1.getWriterName().compareTo(p2.getWriterName());
+                } else {
+                    // 降序
+                    return p2.getWriterName().compareTo(p1.getWriterName());
+                }
+            });
+        } else if (sort == 3) {
+            // 按朝代排序
+            sortedList.sort((p1, p2) -> {
+                if (order == 0) {
+                    // 升序
+                    return p1.getDynasty().compareTo(p2.getDynasty());
+                } else {
+                    // 降序
+                    return p2.getDynasty().compareTo(p1.getDynasty());
+                }
+            });
+        }
+
+        poemList = sortedList;
+        notifyDataSetChanged();
     }
 
     // 诗歌视图组件持有者

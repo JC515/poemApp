@@ -1,6 +1,9 @@
 package com.android.poetry_vocabulary;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +20,12 @@ import com.android.poetry_vocabulary.util.PoemDatabaseHelper;
 import java.util.List;
 
 public class PoemListActivity extends AppCompatActivity {
+
+    EditText search_edit_text;
+
+    RadioGroup sort_radio_group, order_radio_group;
+
+    Button search_button;
     PoemDatabaseHelper dbHelper;
 
     private PoemAdapter poemAdapter;
@@ -32,7 +41,19 @@ public class PoemListActivity extends AppCompatActivity {
             return insets;
         });
 
-        findViewById(R.id.exit_button).setOnClickListener(v -> finish());
+//        findViewById(R.id.exit_button).setOnClickListener(v -> finish());
+
+
+        search_edit_text = findViewById(R.id.search_edit_text);
+        sort_radio_group = findViewById(R.id.sort_radio_group);
+        order_radio_group = findViewById(R.id.order_radio_group);
+        search_button = findViewById(R.id.search_button);
+        search_button.setOnClickListener(v -> {
+            String keyword = search_edit_text.getText().toString();
+            int sort = sort_radio_group.getCheckedRadioButtonId();// 0-无，1-按标题，2-按作者，3-朝代
+            int order = order_radio_group.getCheckedRadioButtonId();// 0-升序，1-降序
+            poemAdapter.filter(keyword, sort, order);
+        });
 
         // 获取 RecyclerView 引用
         RecyclerView poemRecyclerView = findViewById(R.id.poem_recycler_view);

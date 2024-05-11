@@ -8,11 +8,100 @@
     android:orientation="vertical"
     tools:context=".PoemListActivity">
 
-    <Button
-        android:id="@+id/exit_button"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="退出" />
+        android:text="关键词搜索"
+        android:textSize="18sp">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/search_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入关键词"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择排序规则"
+        android:textSize="18sp">
+
+    </TextView>
+
+    <RadioGroup
+        android:id="@+id/sort_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/sort_by_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="无" />
+
+        <RadioButton
+            android:id="@+id/sort_by_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标题" />
+
+        <RadioButton
+            android:id="@+id/sort_by_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="作者" />
+
+        <RadioButton
+            android:id="@+id/sort_by_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="朝代" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择顺序"
+        android:textSize="18sp">
+
+    </TextView>
+
+    <RadioGroup
+        android:id="@+id/order_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/order_by_asc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="升序" />
+
+        <RadioButton
+            android:id="@+id/order_by_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="降序" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_button_bg"
+        android:text="搜索">
+
+    </Button>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/poem_recycler_view"

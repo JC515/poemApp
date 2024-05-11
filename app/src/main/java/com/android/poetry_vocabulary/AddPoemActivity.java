@@ -48,8 +48,8 @@ public class AddPoemActivity extends AppCompatActivity {
         dynasty_spinner.setSelection(0);
 
 
-        // 退出按钮
-        findViewById(R.id.exits_poem_button).setOnClickListener(v -> finish());
+//        // 退出按钮
+//        findViewById(R.id.exits_poem_button).setOnClickListener(v -> finish());
         // 保存按钮
         findViewById(R.id.add_poem_button).setOnClickListener(v -> {
             String poem_name = poem_name_edit_text.getText().toString();
