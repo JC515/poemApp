@@ -4,51 +4,55 @@
         <writerName>李白</writerName>
         <content>床前明月光 疑是地上霜 举头望明月 低头思故乡</content>
         <dynasty>唐</dynasty>
-        <explanation>明亮的月光洒在窗户纸上，好像地上泛起了一层白霜。我抬起头来，看那天窗外空中的明月，不由得低头沉思，想起远方的家乡。
-        </explanation>
+        <explanation>明亮的月光洒在窗户纸上,好像地上泛起了一层白霜。我抬起头来,看那天窗外空中的明月,不由得低头沉思,想起远方的家乡。</explanation>
     </poem>
     <poem>
         <poemName>春晓</poemName>
         <writerName>孟浩然</writerName>
         <content>春眠不觉晓 处处闻啼鸟 夜来风雨声 花落知多少</content>
         <dynasty>唐</dynasty>
-        <explanation>春日熟睡，不知不觉天已破晓，到处都可以听见鸟儿的啼叫。回想昨夜听到的阵阵风雨声，不知有多少娇美的春花被吹落。
-        </explanation>
+        <explanation>春日熟睡,不知不觉天已破晓,到处都可以听见鸟儿的啼叫。回想昨夜听到的阵阵风雨声,不知有多少娇美的春花被吹落。</explanation>
     </poem>
     <poem>
         <poemName>峨眉山月歌</poemName>
         <writerName>李白</writerName>
         <content>峨眉山月半轮秋 影入平羌江水流 夜发清溪向三峡 思君不见下渝州</content>
         <dynasty>唐</dynasty>
-        <explanation>半轮明月高高悬挂在峨眉山前，月影倒映在青衣江澄澈的水面上，仿佛在随着江水流动。夜间乘船出发，离开清溪直奔三峡。想你却难相见，只能依依不舍顺江去向渝州。
-        </explanation>
+        <explanation>半轮明月高高悬挂在峨眉山前,月影倒映在青衣江澄澈的水面上,仿佛在随着江水流动。夜间乘船出发,离开清溪直奔三峡。想你却难相见,只能依依不舍顺江去向渝州。</explanation>
     </poem>
     <poem>
         <poemName>望天门山</poemName>
         <writerName>李白</writerName>
         <content>天门中断楚江开 碧水东流直北回 两岸青山相对出 孤帆一片日边来</content>
         <dynasty>唐</dynasty>
-        <explanation>楚江犹如巨斧，劈开天门雄峰，碧绿江水滚滚东流到这里，又回旋向北流去。两岸青山互相对峙美景难分高下，一只小船从西边落日的地方悠悠驶来。
-        </explanation>
+        <explanation>楚江犹如巨斧,劈开天门雄峰,碧绿江水滚滚东流到这里,又回旋向北流去。两岸青山互相对峙美景难分高下,一只小船从西边落日的地方悠悠驶来。</explanation>
     </poem>
     <poem>
         <poemName>相思</poemName>
         <writerName>王维</writerName>
         <content>红豆生南国 春来发几枝 愿君多采撷 此物最相思</content>
         <dynasty>唐</dynasty>
-        <explanation>
-            红豆生长在阳光明媚的南方，每逢春天不知长多少新枝。希望思念的人儿多多采摘，因为它最能寄托相思之情。
-        </explanation>
+        <explanation>红豆生长在阳光明媚的南方,每逢春天不知长多少新枝。希望思念的人儿多多采摘,因为它最能寄托相思之情。</explanation>
     </poem>
     <poem>
         <poemName>登鹳雀楼</poemName>
         <writerName>王之涣</writerName>
         <content>白日依山尽 黄河入海流 欲穷千里目 更上一层楼</content>
         <dynasty>唐</dynasty>
-        <explanation>
-            站在高楼上，只见夕阳依傍着山峦慢慢沉落，滔滔黄河朝着大海汹涌奔流。想要看到千里之外的风光，那就要再登上更高的一层楼。
-        </explanation>
+        <explanation>站在高楼上,只见夕阳依傍着山峦慢慢沉落,滔滔黄河朝着大海汹涌奔流。想要看到千里之外的风光,那就要再登上更高的一层楼。</explanation>
     </poem>
-
-
+    <poem>
+        <poemName>黄鹤楼送孟浩然之广陵</poemName>
+        <writerName>李白</writerName>
+        <content>故人西辞黄鹤楼 烟花三月下扬州 孤帆远影碧空尽 惟见长江天际流</content>
+        <dynasty>唐</dynasty>
+        <explanation>旧友离开黄鹤楼,飘飘扬扬烟花已三月,乘着小舟奔向扬州。远远望去,只见孤帆影子点点,没入天际,唯有浩浩长江天地相接处一缕流波。</explanation>
+    </poem>
+    <poem>
+        <poemName>春夜洛城闻笛</poemName>
+        <writerName>李白</writerName>
+        <content>谁家玉笛暗飞声 散入春风满洛城 此夜曲中有归思 当君怀归未得归</content>
+        <dynasty>唐</dynasty>
+        <explanation>不知是谁家的玉笛声在夜色中飘飞,盈满整个洛阳城。今夜在曲中曲外,都透露着一种思归的情怀。此刻正当你怀着归乡之思,却仍无法如愿以偿。</explanation>
+    </poem>
 </poems>

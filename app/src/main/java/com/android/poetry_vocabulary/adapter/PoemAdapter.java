@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,6 @@ import com.android.poetry_vocabulary.R;
 import com.android.poetry_vocabulary.pojo.Poem;
 import com.android.poetry_vocabulary.util.PoemDatabaseHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder> {
@@ -98,7 +98,7 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
                     Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e1) {
-                e1.printStackTrace();
+                Log.e("PoemAdapter", "deletePoem error", e1);
             }
         });
         holder.learn_button.setOnClickListener(e -> {
@@ -120,59 +120,12 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
         return poemList == null ? 0 : poemList.size();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void filter(String keyword, int sort, int order) {
-        // 根据关键词获取符合条件的诗歌列表
-        List<Poem> resultList = poemDatabaseHelper.conditionQuery(keyword);
-
-        // 根据排序规则和顺序对列表进行排序
-        List<Poem> sortedList = new ArrayList<>(resultList);
-        if (sort == 1) {
-            // 按标题排序
-            sortedList.sort((p1, p2) -> {
-                if (order == 0) {
-                    // 升序
-                    return p1.getPoemName().compareTo(p2.getPoemName());
-                } else {
-                    // 降序
-                    return p2.getPoemName().compareTo(p1.getPoemName());
-                }
-            });
-        } else if (sort == 2) {
-            // 按作者排序
-            sortedList.sort((p1, p2) -> {
-                if (order == 0) {
-                    // 升序
-                    return p1.getWriterName().compareTo(p2.getWriterName());
-                } else {
-                    // 降序
-                    return p2.getWriterName().compareTo(p1.getWriterName());
-                }
-            });
-        } else if (sort == 3) {
-            // 按朝代排序
-            sortedList.sort((p1, p2) -> {
-                if (order == 0) {
-                    // 升序
-                    return p1.getDynasty().compareTo(p2.getDynasty());
-                } else {
-                    // 降序
-                    return p2.getDynasty().compareTo(p1.getDynasty());
-                }
-            });
-        }
-
-        poemList = sortedList;
-        notifyDataSetChanged();
-    }
 
     // 诗歌视图组件持有者
     static class PoemViewHolder extends RecyclerView.ViewHolder {
         TextView poemNameTextView;
         TextView writerNameTextView;
-        //        TextView dynastyTextView;
         TextView contentTextView;
-        //        TextView commentTextView;
         Button deleteButton;
         Button learn_button;
 

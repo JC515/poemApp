@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -36,9 +37,14 @@ public class PoemLearnActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        poemDatabaseHelper = PoemDatabaseHelper.getInstance(this);
+        if (poemDatabaseHelper.queryAllPoems().isEmpty()) {
+            Toast.makeText(this, "诗词库为空，请添加诗词", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_poem_learn);
         setupViews();
-        poemDatabaseHelper = PoemDatabaseHelper.getInstance(this);
         setupButtons();
         setupInitialPoem();
         initTextToSpeech();

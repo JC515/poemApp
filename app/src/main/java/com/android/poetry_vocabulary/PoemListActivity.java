@@ -23,7 +23,7 @@ public class PoemListActivity extends AppCompatActivity {
 
     EditText search_edit_text;
 
-    RadioGroup sort_radio_group, order_radio_group;
+//    RadioGroup sort_radio_group, order_radio_group;
 
     Button search_button;
     PoemDatabaseHelper dbHelper;
@@ -45,14 +45,15 @@ public class PoemListActivity extends AppCompatActivity {
 
 
         search_edit_text = findViewById(R.id.search_edit_text);
-        sort_radio_group = findViewById(R.id.sort_radio_group);
-        order_radio_group = findViewById(R.id.order_radio_group);
+//        sort_radio_group = findViewById(R.id.sort_radio_group);
+//        order_radio_group = findViewById(R.id.order_radio_group);
         search_button = findViewById(R.id.search_button);
         search_button.setOnClickListener(v -> {
             String keyword = search_edit_text.getText().toString();
-            int sort = sort_radio_group.getCheckedRadioButtonId();// 0-无，1-按标题，2-按作者，3-朝代
-            int order = order_radio_group.getCheckedRadioButtonId();// 0-升序，1-降序
-            poemAdapter.filter(keyword, sort, order);
+//            int sort = sort_radio_group.getCheckedRadioButtonId(); // 0-无，1-按标题，2-按作者，3-朝代
+//            int order = order_radio_group.getCheckedRadioButtonId(); // 0-升序，1-降序
+            List<Poem> poemList = dbHelper.queryByCondition(keyword);
+            poemAdapter.setPoemList(poemList);
         });
 
         // 获取 RecyclerView 引用

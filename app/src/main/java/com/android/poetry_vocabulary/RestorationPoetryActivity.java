@@ -76,6 +76,13 @@ public class RestorationPoetryActivity extends AppCompatActivity {
         poemDatabaseHelper = PoemDatabaseHelper.getInstance(this);
         // 获取诗词数据
         getPoemData();
+        if (poemDataList == null || poemDataList.isEmpty()) {
+            // 数据库为空，显示提示信息
+            Toast.makeText(this, "数据库为空，请添加诗词", Toast.LENGTH_SHORT).show();
+            // 结束当前Activity
+            finish();
+            return;
+        }
         // 设置随机诗句
         setRandomPoem();
         // 添加组件到布局中
@@ -343,9 +350,6 @@ public class RestorationPoetryActivity extends AppCompatActivity {
         }
         String userAnswer = sb.toString().replace(" ", "");
         String temp = originalPoem.replace(" ", "");
-//        Toast.makeText(this, "用户答案：" + userAnswer, Toast.LENGTH_SHORT).show();
-//
-//        Toast.makeText(this, "正确答案：" + temp, Toast.LENGTH_SHORT).show();
 
         boolean isCorrect = userAnswer.equals(originalPoem.replace(" ", ""));
 

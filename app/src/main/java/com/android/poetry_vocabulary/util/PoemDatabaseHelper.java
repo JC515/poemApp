@@ -140,18 +140,43 @@ public class PoemDatabaseHelper extends SQLiteOpenHelper {
         return mWDB.update(TABLE_NAME, values, selection, selectionArgs);
     }
 
-    public List<Poem> conditionQuery(String keyStr) {
-        // 先查询所有诗词
-        List<Poem> poemList = queryAllPoems();
-        // 再根据关键字进行过滤
-        List<Poem> resultList = new ArrayList<>();
-        for (Poem poem : poemList) {
-            if (poem.getPoemName().contains(keyStr) || poem.getWriterName().contains(keyStr) ||
-                    poem.getContent().contains(keyStr) || poem.getDynasty().contains(keyStr)) {
-                resultList.add(poem);
-            }
+    @SuppressLint("Range")
+    public List<Poem> queryByCondition(String keyword) {
+        List<Poem> poemList = new ArrayList<>();
+        SQLiteDatabase db = openReadDB();
+
+        String selection = POEM_NAME + " LIKE ? OR " + WRITER_NAME + " LIKE ? OR " + CONTENT + " LIKE ? OR " + DYNASTY + " LIKE ?";
+        String[] selectionArgs = {
+                "%" + keyword + "%",
+                "%" + keyword + "%",
+                "%" + keyword + "%",
+                "%" + keyword + "%"
+        };
+
+        Cursor cursor = db.query(
+                TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            @SuppressLint("Range") Poem poem = new Poem(
+                    cursor.getString(cursor.getColumnIndex(POEM_NAME)),
+                    cursor.getString(cursor.getColumnIndex(WRITER_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CONTENT)),
+                    cursor.getString(cursor.getColumnIndex(DYNASTY)),
+                    cursor.getString(cursor.getColumnIndex(EXPLANATION))
+            );
+            poem.setPoemId(cursor.getLong(cursor.getColumnIndex(POEM_ID)));
+            poemList.add(poem);
         }
-        return resultList;
+
+        cursor.close();
+        return poemList;
     }
 
     // 查询数据, 返回 ALL Poem 列表
@@ -213,4 +238,3 @@ public class PoemDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 }
-
